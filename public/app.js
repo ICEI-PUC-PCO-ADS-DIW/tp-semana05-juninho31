@@ -1,4 +1,4 @@
-
+// Estrutura JSON com pontos turísticos de Goiás
 const dados = [
   {
     "id": 1,
@@ -42,7 +42,7 @@ const dados = [
   }
 ];
 
-
+// Função para montar cards na Home
 function carregarHome() {
   const container = document.getElementById("lista-pontos");
   if (!container) return;
@@ -62,5 +62,32 @@ function carregarHome() {
   });
 }
 
+// Função para carregar detalhes de um ponto turístico
+function carregarDetalhes() {
+  const container = document.getElementById("detalhes");
+  if (!container) return;
 
+  const params = new URLSearchParams(window.location.search);
+  const id = parseInt(params.get("id"));
+
+  const item = dados.find(p => p.id === id);
+
+  if (item) {
+    container.innerHTML = `
+      <div class="detalhes-card">
+        <img src="${item.imagem}" alt="${item.titulo}">
+        <h2>${item.titulo}</h2>
+        <p><strong>Categoria:</strong> ${item.categoria}</p>
+        <p><strong>Autor:</strong> ${item.autor} | <strong>Data:</strong> ${item.data}</p>
+        <p>${item.conteudo}</p>
+        <a href="index.html">⬅ Voltar para a Home</a>
+      </div>
+    `;
+  } else {
+    container.innerHTML = "<p>Ponto turístico não encontrado!</p>";
+  }
+}
+
+// Executa funções conforme a página
 carregarHome();
+carregarDetalhes();
